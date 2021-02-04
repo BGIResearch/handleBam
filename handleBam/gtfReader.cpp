@@ -86,8 +86,12 @@ int GTFReader::parseTabbedLine(std::string& line, GTFRecord& gtfRecord)
     gtfRecord.setGeneName(attrs.at(attrKeys["gene_name"]));
     if (gtfRecord.getFeatureType() != "gene")
     {
-        gtfRecord.setTranscriptID(attrs.at(attrKeys["transcript_id"]));
-        gtfRecord.setTranscriptName(attrs.at(attrKeys["transcript_name"]));
+        std::string transcript_id = attrs.at(attrKeys["transcript_id"]);
+        std::string transcript_name = attrs.at(attrKeys["transcript_name"]);
+        gtfRecord.setTranscriptID(transcript_id);
+        if (transcript_name.empty())
+            transcript_name = transcript_id;
+        gtfRecord.setTranscriptName(transcript_id);
         // TODO(fxzhao): when to use transcriptType and geneVersion?
         // gtfRecord.setTranscriptType();
     }
