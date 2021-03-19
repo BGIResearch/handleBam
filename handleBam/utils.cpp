@@ -22,7 +22,12 @@
 
 #include <chrono>
 #include <filesystem>
+#include <random>
 namespace fs = std::filesystem;
+
+using std::string;
+using std::random_device;
+using std::default_random_engine;
 
 int exec_shell(const char* cmd, std::vector< std::string >& resvec)
 {
@@ -101,4 +106,25 @@ bool check_file_older(const std::string& first, const std::string& second)
     auto     t2 = fs::last_write_time(p2);
 
     return (std::chrono::duration_cast< std::chrono::seconds >(t1 - t2).count() <= 0);
+}
+
+string rand_str(int length)
+{
+    char tmp;
+    string buffer;
+    
+    random_device rd;
+    default_random_engine random(rd());
+    
+    for (int i = 0; i < length; i++) {
+        tmp = random() % 36;
+        if (tmp < 10) {
+            tmp += '0';
+        } else {
+            tmp -= 10;
+            tmp += 'A';
+        }
+        buffer += tmp;
+    }
+    return buffer;
 }

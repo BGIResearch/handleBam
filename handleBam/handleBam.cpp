@@ -1380,11 +1380,13 @@ int HandleBam::createPath()
     spdlog::debug("output_bam_filename:{}", p.string());
     p = p.parent_path();
     spdlog::debug("parent path:{}", p.string());
+    string rs = rand_str(8);
     tmp_bam_path = p;
-    tmp_bam_path += "/_bam";
+    tmp_bam_path += "/_bam_" + rs;
     spdlog::debug("tmp_bam_path:{}", tmp_bam_path.string());
     tmp_exp_path = p;
-    tmp_exp_path += "/_exp";
+    tmp_exp_path += "/_exp_" + rs;
+    spdlog::info("Generate internel directory: {} {}", tmp_bam_path.string(), tmp_exp_path.string());
 
     std::error_code ec;
 

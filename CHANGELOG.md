@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.2(2021-03-19)
+
+* change intenel directory name from fixed to random
+
 ## 1.0.1(2021-02-04)
 
 * set transcript_name as transcript_id when parsing gtf file if transcript_name is empty

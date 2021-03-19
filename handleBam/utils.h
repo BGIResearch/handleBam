@@ -24,3 +24,6 @@ vector< string > split_str(const std::string& str, char delim = ' ', bool skip_e
 
 // Return true: first file is older than second file
 bool check_file_older(const std::string& first, const std::string& second);
+
+// Generate random string
+string rand_str(int length);
