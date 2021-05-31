@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.3(2021-05-31)
+
+* fix integer overflow when stat reads
+
 ## 1.0.2(2021-03-19)
 
 * change intenel directory name from fixed to random

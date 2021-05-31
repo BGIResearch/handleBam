@@ -151,20 +151,20 @@ private:
     string annotation_filename;
 
     // Annotation statics for Drop-seq
-    std::atomic< int > total_reads;
-    std::atomic< int > reads_right_strand;
-    std::atomic< int > reads_wrong_strand;
-    std::atomic< int > ambiguous_reads_rejected;
-    std::atomic< int > read_ambiguous_gene_fixed;
+    std::atomic< size_t > total_reads;
+    std::atomic< size_t > reads_right_strand;
+    std::atomic< size_t > reads_wrong_strand;
+    std::atomic< size_t > ambiguous_reads_rejected;
+    std::atomic< size_t > read_ambiguous_gene_fixed;
 
     // Add statics metrics for TENX genomics
-    std::atomic< int > map_reads;
-    std::atomic< int > exonic_reads;
-    std::atomic< int > intronic_reads;
-    std::atomic< int > intergenic_reads;
-    std::atomic< int > transcriptome_reads;
-    std::atomic< int > multigene_reads;
-    std::atomic< int > nogene_reads;
+    std::atomic< size_t > map_reads;
+    std::atomic< size_t > exonic_reads;
+    std::atomic< size_t > intronic_reads;
+    std::atomic< size_t > intergenic_reads;
+    std::atomic< size_t > transcriptome_reads;
+    std::atomic< size_t > multigene_reads;
+    std::atomic< size_t > nogene_reads;
 
     // std::mutex stat_mutex;
     std::mutex query_mutex;
