@@ -818,7 +818,7 @@ int TagReadsWithGeneExon::makeOverlapDetectorV2()
         }
         catch (AnnotationException& e)
         {
-            spdlog::debug("{} {}", e.what(), "-- skipping");
+            spdlog::warn("{} {}", e.what(), "-- skipping");
             continue;
         }
     }

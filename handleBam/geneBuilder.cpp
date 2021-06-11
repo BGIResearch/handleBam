@@ -165,7 +165,7 @@ GeneFromGTF GeneBuilder::makeGeneFromGTFRecords(std::vector< GTFRecord >& gtfRec
 void GeneBuilder::validateGTFRecord(GTFRecord& record, GeneFromGTF& gene)
 {
     // TODO(fxzhao): maybe i can ignore those compare.
-    if (gene.getContig() != record.getContig())
+    if (gene.isNegativeStrand() != record.isNegativeStrand())
     {
         std::string error = "Strand disagreement in GTF file for gene " + gene.getName();
         throw AnnotationException(error);
