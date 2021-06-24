@@ -102,6 +102,13 @@ private:
     // matrix markert file format
     bool transform_txt2mtx();
 
+    void dumpExp(std::unordered_map< std::string, int >& barcode_gene_exp,
+        fs::path& expFile);
+    void dumpExp(std::unordered_map< std::string, std::pair< int, int > >& barcode_gene_exp,
+        fs::path& expFile);
+    void parseBarcodeGene(const std::string& barcodeGene, std::string& gene,
+        std::string& coorX, std::string& coorY);
+
 private:
     std::vector< std::string > input_bam_filenames;
     string                     output_bam_filename;

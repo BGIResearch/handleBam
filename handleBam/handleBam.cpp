@@ -214,19 +214,7 @@ std::tuple< int, int, int, int > HandleBam::processChromosome(std::string       
     }
     samWriter.close();
 
-    if (!barcode_gene_exp.empty())
-    {
-        std::ofstream exp_handle(tmp_exp_file, std::ofstream::out);
-        if (!exp_handle.is_open())
-        {
-            std::string error = "Error opening file: " + tmp_exp_file.string();
-            spdlog::error(error);
-            throw std::runtime_error(error);
-        }
-        for (auto& p : barcode_gene_exp)
-            exp_handle << p.first << "\t" << p.second << std::endl;
-        exp_handle.close();
-    }
+    dumpExp(barcode_gene_exp, tmp_exp_file);
 
     bam_destroy1(bamRecord);
 
@@ -389,19 +377,7 @@ std::tuple< int, int, int, int > HandleBam::processChromosomeWhole(std::string  
     }
     samWriter.close();
 
-    if (!barcode_gene_exp.empty())
-    {
-        std::ofstream exp_handle(tmp_exp_file, std::ofstream::out);
-        if (!exp_handle.is_open())
-        {
-            std::string error = "Error opening file: " + tmp_exp_file.string();
-            spdlog::error(error);
-            throw std::runtime_error(error);
-        }
-        for (auto& p : barcode_gene_exp)
-            exp_handle << p.first << "\t" << p.second << std::endl;
-        exp_handle.close();
-    }
+    dumpExp(barcode_gene_exp, tmp_exp_file);
 
     bam_destroy1(bamRecord);
 
@@ -685,29 +661,8 @@ std::tuple< int, int, int, int > HandleBam::processChromosomeUmi(std::string    
     }
     samWriter2.close();
 
-    if (!barcode_gene_exp.empty())
-    {
-        std::ofstream exp_handle(tmp_exp_file, std::ofstream::out);
-        if (!exp_handle.is_open())
-        {
-            std::string error = "Error opening file: " + tmp_exp_file.string();
-            spdlog::error(error);
-            throw std::runtime_error(error);
-        }
-        if (scrna)
-        {
-            for (auto& p : barcode_gene_exp)
-                exp_handle << p.first << "\t" << p.second.first << "\t" << p.second.second << std::endl;
-        }
-        else
-        {
-            for (auto& p : barcode_gene_exp)
-                exp_handle << p.first << "\t" << p.second.first << std::endl;
-        }
-
-        exp_handle.close();
-    }
-
+    dumpExp(barcode_gene_exp, tmp_exp_file);
+    
     // std::unordered_map< std::string, int > tmp_map;
     // barcode_gene_exp.swap(tmp_map);
     // std::unordered_set< std::string > tmp_set;
@@ -723,6 +678,8 @@ std::tuple< int, int, int, int > HandleBam::processChromosomeUmi(std::string    
                  unique, t.toc(1000));
     return make_tuple(total, filtered, annotated, unique);
 }
+
+
 
 std::tuple< int, int, int, int > HandleBam::processChromosomeUmiWhole(std::string           ctg,
                                                                       TagReadsWithGeneExon* tagReadsWithGeneExon)
@@ -977,27 +934,7 @@ std::tuple< int, int, int, int > HandleBam::processChromosomeUmiWhole(std::strin
     }
     samWriter2.close();
 
-    if (!barcode_gene_exp.empty())
-    {
-        std::ofstream exp_handle(tmp_exp_file, std::ofstream::out);
-        if (!exp_handle.is_open())
-        {
-            std::string error = "Error opening file: " + tmp_exp_file.string();
-            spdlog::error(error);
-            throw std::runtime_error(error);
-        }
-        if (scrna)
-        {
-            for (auto& p : barcode_gene_exp)
-                exp_handle << p.first << "\t" << p.second.first << "\t" << p.second.second << std::endl;
-        }
-        else
-        {
-            for (auto& p : barcode_gene_exp)
-                exp_handle << p.first << "\t" << p.second.first << std::endl;
-        }
-        exp_handle.close();
-    }
+    dumpExp(barcode_gene_exp, tmp_exp_file);
 
     // std::unordered_map< std::string, int > tmp_map;
     // barcode_gene_exp.swap(tmp_map);
@@ -1013,6 +950,82 @@ std::tuple< int, int, int, int > HandleBam::processChromosomeUmiWhole(std::strin
     spdlog::info("chr:{} total:{} filtered:{} annotated:{} unique:{} time(s):{:.2f}", ctg, total, filtered, annotated,
                  unique, t.toc(1000));
     return make_tuple(total, filtered, annotated, unique);
+}
+
+void HandleBam::parseBarcodeGene(const std::string& barcodeGene, std::string& gene,
+    std::string& coorX, std::string& coorY)
+{
+    assert(!barcodeGene.empty());
+    auto pos = barcodeGene.find('\t');
+    gene.assign(barcodeGene, pos+1, barcodeGene.size()-pos-1);
+    auto pos1 = barcodeGene.find('_');
+    coorX.assign(barcodeGene, 0, pos1);
+    coorY.assign(barcodeGene, pos1+1, pos-pos1-1);
+}
+
+void HandleBam::dumpExp(std::unordered_map< std::string, std::pair< int, int > >& barcode_gene_exp,
+    fs::path& expFile)
+{
+    if (!barcode_gene_exp.empty())
+    {
+        std::ofstream exp_handle(expFile, std::ofstream::out);
+        if (!exp_handle.is_open())
+        {
+            std::string error = "Error opening file: " + expFile.string();
+            spdlog::error(error);
+            throw std::runtime_error(error);
+        }
+        if (scrna)
+        {
+            for (auto& p : barcode_gene_exp)
+                exp_handle << p.first << "\t" << p.second.first << "\t" << p.second.second << std::endl;
+        }
+        else
+        {
+            std::string gene, coorX, coorY;
+            for (auto& p : barcode_gene_exp)
+            {
+                auto& barcode_gene = p.first;
+                parseBarcodeGene(barcode_gene, gene, coorX, coorY);
+                exp_handle << gene << "\t"
+                           << coorX << "\t"
+                           << coorY << "\t" 
+                           << p.second.first
+                           << std::endl;
+            }
+        }
+
+        exp_handle.close();
+    }
+}
+
+void HandleBam::dumpExp(std::unordered_map< std::string, int >& barcode_gene_exp,
+    fs::path& expFile)
+{
+    if (!barcode_gene_exp.empty())
+    {
+        std::ofstream exp_handle(expFile, std::ofstream::out);
+        if (!exp_handle.is_open())
+        {
+            std::string error = "Error opening file: " + expFile.string();
+            spdlog::error(error);
+            throw std::runtime_error(error);
+        }
+       
+        std::string gene, coorX, coorY;
+        for (auto& p : barcode_gene_exp)
+        {
+            auto& barcode_gene = p.first;
+            parseBarcodeGene(barcode_gene, gene, coorX, coorY);
+            exp_handle << gene << "\t"
+                    << coorX << "\t"
+                    << coorY << "\t" 
+                    << p.second
+                    << std::endl;
+        }
+        
+        exp_handle.close();
+    }
 }
 
 // Calculate mismatch of two umis, and mismatch positions/types
@@ -1238,6 +1251,7 @@ int HandleBam::doWork()
     // std::string                cat_exp_cmd = "cat > " + exp_file;
 
     std::ofstream              ofs_exp(exp_file, std::ofstream::out);
+    ofs_exp << "geneID\tx\ty\tMIDCount\n";
     std::vector< std::string > bam_files;
     for (auto& [ctg, _] : contigs)
     {
