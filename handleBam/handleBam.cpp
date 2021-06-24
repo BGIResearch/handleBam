@@ -1251,7 +1251,8 @@ int HandleBam::doWork()
     // std::string                cat_exp_cmd = "cat > " + exp_file;
 
     std::ofstream              ofs_exp(exp_file, std::ofstream::out);
-    ofs_exp << "geneID\tx\ty\tMIDCount\n";
+    if (!scrna)
+        ofs_exp << "geneID\tx\ty\tMIDCount\n";
     std::vector< std::string > bam_files;
     for (auto& [ctg, _] : contigs)
     {

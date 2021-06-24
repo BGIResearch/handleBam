@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.4(2021-06-24)
+
+* change the format of expression file, split barcode into x/y coordinates, and add header line
+
 ## 1.0.3(2021-05-31)
 
 * fix integer overflow when stat reads
