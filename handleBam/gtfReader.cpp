@@ -52,6 +52,7 @@ int GTFReader::loadGTFFile(std::string gtf_file, std::unordered_map< std::string
     int         num = 0;
     while (std::getline(input, line))
     {
+        if (line.empty()) continue;
         GTFRecord gtfRecord;
         // Parse data and construct instance of GTFRecord.
         if (line[0] == '#')
