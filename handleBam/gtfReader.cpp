@@ -67,7 +67,9 @@ int GTFReader::loadGTFFile(std::string gtf_file, std::unordered_map< std::string
         // Gather gtfRecord by genename.
         // Skip pseudo genes
         if (!gtfRecord.getGeneName().empty())
+        {
             gtfMap[gtfRecord.getGeneName()].push_back(std::move(gtfRecord));
+        }
     }
     return 0;
 }
@@ -145,40 +147,50 @@ int GTFReader::parseTabbedLineGFF(std::string& line, GTFRecord& gtfRecord)
     return 0;
 }
 
+void trimLeft(std::string& s)
+{
+    if (s.empty()) return;
+    while (!s.empty() && s[0] == ' ')
+        s.erase(s.begin());
+
+    // std::cout<<s<<std::endl;
+}
+
 int GTFReader::parseAttributes(std::string& s)
 {
     attrs.clear();
     attrs.resize(attrKeys.size());
 
     std::istringstream        iss(s);
-    int                       i     = 0;
     decltype(attrKeys.size()) count = 0;
     std::string               key, value;
-    for (std::string item; getline(iss, item, ' ');)
+    for (std::string item; getline(iss, item, ';');)
         if (item.empty())
             continue;
         else
         {
-            if ((i++) % 2 == 0)
-                key = item;
-            else
-            {
-                if (attrKeys.find(key) == attrKeys.end())
-                    continue;
-                value = item;
-                // Remove the quotes in begin and end of the string,
-                // include comma in the end.
-                // e.g. gene_name "DDX11L1"; level 2;
-                if (value.size() > 3)
-                    value = value.substr(1, value.size() - 3);
-                else
-                    value = value.substr(0, value.size() - 1);
-                attrs[attrKeys[key]] = value;
-                ++count;
-                // When we get the information we want, return early.
-                if (count == attrKeys.size())
-                    return 0;
-            }
+            trimLeft(item);
+            auto pos = item.find(attrSep);
+            if (pos == std::string::npos)
+                continue;
+            key        = item.substr(0, pos);
+            value      = item.substr(pos + 1);
+
+            // std::cout<<key<<"     "<<value<<std::endl;
+            if (attrKeys.find(key) == attrKeys.end())
+                continue;
+
+            // Remove the quotes in begin and end of the string,
+            // e.g. gene_name "DDX11L1"; level 2;
+            if (value.size() > 3 && value[0] == '"')
+                value = value.substr(1, value.size() - 2);
+
+            attrs[attrKeys[key]] = value;
+            ++count;
+            // When we get the information we want, return early.
+            if (count == attrKeys.size())
+                return 0;
+           
         }
     return 0;
 }
