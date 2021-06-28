@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.5(2021-06-28)
+
+* support empty line and space in gtf files
+
 ## 1.0.4(2021-06-24)
 
 * change the format of expression file, split barcode into x/y coordinates, and add header line
