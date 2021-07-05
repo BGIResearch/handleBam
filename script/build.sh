@@ -1,6 +1,7 @@
 
 # TODO: change the libPath to your specific path
-libPath="/hwfssz5/ST_BIGDATA/USER/zhaofuxiang/lib"
+#libPath="/hwfssz5/ST_BIGDATA/USER/zhaofuxiang/lib"
+libPath="/root/lib"
 
 cmakePath="$libPath/cmake-3.17.2"
 gccPath="$libPath/gcc-9.1.0"
@@ -18,9 +19,8 @@ export PATH="$gccPath/bin:$cmakePath/bin:$binPath"
 
 export LD_LIBRARY_PATH="$fftwPath/lib:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH="$libdeflatePath/lib:$htslibPath/lib:$gccPath/lib64:$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/lib64"
 export LIBRARY_PATH=$LD_LIBRARY_PATH
-#echo $LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
 
 export C_INCLUDE_PATH="$fftwPath/include:$C_INCLUDE_PATH"
 export C_INCLUDE_PATH="$doctestPath/include:$C_INCLUDE_PATH"
