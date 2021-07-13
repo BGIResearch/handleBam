@@ -113,9 +113,9 @@ int main(int argc, char** argv)
     {
         std::cerr << "Log init failed: " << ex.what() << std::endl;
     }
-    spdlog::set_level(spdlog::level::info);  // Set global log level.
+    spdlog::set_level(spdlog::level::debug);  // Set global log level.
     // spdlog::cfg::load_argv_levels(argc, argv); // Set log level from command line
-    spdlog::flush_on(spdlog::level::info);
+    spdlog::flush_on(spdlog::level::debug);
     spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %L %n: %v");
 
     spdlog::get("main")->info("{} INPUT={} OUTPUT={} SUMMARY={} TAG={} ANNOTATION_FILE={} SAVE_LOW_QUALITY={} "

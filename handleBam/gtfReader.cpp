@@ -204,6 +204,7 @@ int GTFReader::parseAttributesGFF(std::string& s, std::unordered_map< std::strin
             continue;
         else
         {
+            trimLeft(item);
             auto pos = item.find(attrSep);
             if (pos == std::string::npos)
                 continue;
