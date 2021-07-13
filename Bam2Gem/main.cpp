@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 {
     Timer timer;
     // Parse the command line parameters.
-    CLI::App app{ "HandleBam: mapping quality filter, deduplication, "
+    CLI::App app{ "Bam2Gem: mapping quality filter, deduplication, "
                   "set annotation, stat gene expression data." };
-    app.footer("HandleBam version: " + version);
+    app.footer("Bam2Gem version: " + version);
     app.get_formatter()->column_width(40);
 
     string input_bam, output_bam, annotation_file, metrics_file, exp_file;

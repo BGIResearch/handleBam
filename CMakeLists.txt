@@ -18,9 +18,9 @@ set(CMAKE_BUILD_TYPE Release)
 if ( UNITTEST STREQUAL "OFF" )
     # the main project
     add_subdirectory(density)
-    add_subdirectory(handleBam)
+    add_subdirectory(Bam2Gem)
     add_dependencies(app_handleBam density)
-    message(STATUS "Compile handleBam")
+    message(STATUS "Compile Bam2Gem")
 else()
     # the unittest project
     add_subdirectory(test)

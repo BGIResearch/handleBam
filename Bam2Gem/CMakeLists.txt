@@ -49,4 +49,4 @@ target_link_libraries(app_handleBam
     )
 
 install(TARGETS app_handleBam RUNTIME DESTINATION bin)
-set_target_properties(app_handleBam PROPERTIES OUTPUT_NAME "handleBam")
+set_target_properties(app_handleBam PROPERTIES OUTPUT_NAME "Bam2Gem")

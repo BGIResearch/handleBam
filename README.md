@@ -1,8 +1,8 @@
-# HandleBam
+# Bam2Gem
 
 ## Introduction
 
-HandleBam implement these steps in RNA-seq pipeline:
+Bam2Gem implement these steps in RNA-seq pipeline:
 1. mapping quality filter
 2. deduplication
 3. set annotations
@@ -51,7 +51,7 @@ then the binary executable file named *unittest* is saved in *install/bin*
 ### Usage
 
 ```
-HandleBam: mapping quality filter, deduplication, set annotation, stat gene expression data.
+Bam2Gem: mapping quality filter, deduplication, set annotation, stat gene expression data.
 Usage: ./install/bin/handleBam [OPTIONS]
 
 Options:
@@ -76,7 +76,7 @@ Options:
   --scrna,--scRNA,--SCRNA               Set scRNA mode, default false
   --no_filter_matrix Needs: --scrna     Not filter the gene expression matrix, default false
 
-HandleBam version: 1.0.0
+Bam2Gem version: 1.0.0
 ```
 
 Required parameters:
