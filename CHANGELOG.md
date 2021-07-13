@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.6(2021-07-13)
+
+* support empty line and space in gff files 
+
 ## 1.0.5(2021-06-28)
 
 * support empty line and space in gtf files
