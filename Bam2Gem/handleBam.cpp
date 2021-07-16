@@ -1048,7 +1048,13 @@ int HandleBam::umiDistance(const std::string& s1, const std::string& s2, vector<
 
 inline bool compareBySecond(const pair< std::string, int >& p1, const pair< std::string, int >& p2)
 {
-    return p1.second > p2.second;
+    if (p1.second > p2.second)
+        return true;
+    else if (p1.second < p2.second)
+        return false;
+    else
+        return p1.first > p2.first;
+
 }
 
 // Mark the duplicate umi through set cnt to 0 in {barcode_gene : {umi: cnt}}

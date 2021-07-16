@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.7(2021-07-16)
+
+* trim '"' in gtf files
+* fix random problem when correcting umi
+
 ## 1.0.6(2021-07-13)
 
 * support empty line and space in gff files 

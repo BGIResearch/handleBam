@@ -22,7 +22,7 @@ namespace fs = std::filesystem;
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/spdlog.h>
 
-static const std::string version = "1.0.6";
+static const std::string version = "1.0.7";
 
 int main(int argc, char** argv)
 {
