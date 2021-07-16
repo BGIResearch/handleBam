@@ -152,8 +152,16 @@ void trimLeft(std::string& s)
     if (s.empty()) return;
     while (!s.empty() && s[0] == ' ')
         s.erase(s.begin());
+}
 
-    // std::cout<<s<<std::endl;
+std::string trim(const std::string& s, const char c)
+{
+    std::string s_(s);
+    while (!s_.empty() && s_.front() == c)
+        s_.erase(s_.begin());
+    while (!s_.empty() && s_.back() == c)
+        s_.pop_back();
+    return s_;
 }
 
 int GTFReader::parseAttributes(std::string& s)
@@ -182,8 +190,7 @@ int GTFReader::parseAttributes(std::string& s)
 
             // Remove the quotes in begin and end of the string,
             // e.g. gene_name "DDX11L1"; level 2;
-            if (value.size() > 3 && value[0] == '"')
-                value = value.substr(1, value.size() - 2);
+            value = trim(value, '"');
 
             attrs[attrKeys[key]] = value;
             ++count;
@@ -210,6 +217,7 @@ int GTFReader::parseAttributesGFF(std::string& s, std::unordered_map< std::strin
                 continue;
             key        = item.substr(0, pos);
             value      = item.substr(pos + 1);
+            value = trim(value, '"');
             attrs[key] = value;
         }
     return 0;
