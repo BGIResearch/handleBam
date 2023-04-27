@@ -1,5 +1,7 @@
 # HandleBam
 
+**Our GitHub repository has been transferred to <[new link](https://github.com/STOmics/handleBam)>, please visit us for the latest update!**
+  
 ## Introduction
 
 HandleBam implement these steps in RNA-seq pipeline:
